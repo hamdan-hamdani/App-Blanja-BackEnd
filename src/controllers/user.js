@@ -4,6 +4,41 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
+    updatePassword: (req, response) => {
+      const email = req.params.email
+      const {
+        password,
+        newpassword
+      } = req.body
+      if (password === newpassword) {
+        const data = {
+          password
+        }
+        bcrypt.genSalt(10, function (err, salt) {
+          bcrypt.hash(data.password, salt, async function (err, hash) {
+              const passwordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
+                  if (password.match(passwordFormat)) {
+                      data.password = hash
+                      userModel.updatePassword(email, data)
+                      .then(result => {
+                          const historyResult = result
+                          helper.responseGetAll(response, historyResult, 200)
+                      })
+                      .catch(err => {
+                        helper.responseGetAll(response, {message:'Gagal mengupdate password'}, 501)
+                        console.log(err)
+                      })
+                  } else {
+                      const message = 'password harus 8 hingga 15 karakter yang berisi setidaknya satu huruf kecil, satu huruf besar, satu digit angka, dan satu karakter khusus'
+                      helper.responseGetAll(response, {message}, 501)    
+                  }
+          })
+        })
+      } else {
+        const message = 'password tidak sama dengan newpassword'
+        helper.responseGetAll(response, {message}, 501)    
+      }
+    },
     registerCustomer: (req, response) => {
       const {
         name,
@@ -72,6 +107,19 @@ module.exports = {
                 helper.responseGetAll(res, user, 200)
               })
             })
+        })
+        .catch(err => console.log(err))
+    },
+    resetPassword: (req, res) => {
+     const {email, password} = req.body
+     userModel.cekUserByEmail(email)
+        .then(result => {
+          if (result.length === 0) {
+            console.log('gagal')
+            return helper.responseGetAll(res, { message: 'Email tidak terdaftar' }, 501)
+          }
+          console.log('berhasil')
+          helper.responseGetAll(res, {message: 'berhasil'}, 200)
         })
         .catch(err => console.log(err))
     }

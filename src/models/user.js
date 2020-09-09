@@ -22,5 +22,16 @@ module.exports = {
         }
       })
     })
+  },
+  updatePassword: (email, data) => {
+    return new Promise((resolve, reject) => {
+      connection.query('UPDATE users SET password = ? WHERE email = ?', [data.password, email], (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
   }
 }
