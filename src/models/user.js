@@ -33,5 +33,38 @@ module.exports = {
         }
       })
     })
-  }
+  },
+  cekSellerByEmail: (email) => {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM seller WHERE email = ?', email, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+  registerSeller: (data) => {
+    return new Promise((resolve, reject) => {
+      connection.query('INSERT INTO seller SET ? ', data, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+  updatePasswordSeller: (email, data) => {
+    return new Promise((resolve, reject) => {
+      connection.query('UPDATE seller SET password = ? WHERE email = ?', [data.password, email], (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
 }
