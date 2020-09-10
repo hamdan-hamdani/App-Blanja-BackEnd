@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2020 at 04:11 AM
+-- Generation Time: Sep 10, 2020 at 10:16 AM
 -- Server version: 8.0.21
 -- PHP Version: 7.3.20
 
@@ -38,21 +38,22 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name`, `image`) VALUES
-(2, 'Wrist watch', ''),
-(3, 'T-shirt', ''),
-(4, 'Shorts', ''),
-(5, 'Jacket', ''),
-(6, 'Pants', ''),
-(7, 'Handbag', ''),
-(8, 'Bagback', ''),
-(9, 'Socks', ''),
-(10, 'Glasses', ''),
-(11, 'Cap', ''),
-(12, 'Tie', ''),
-(13, 'Dress', ''),
-(14, 'Formal suit', ''),
-(15, 'Accessoris', ''),
-(16, 'High Heels', '');
+(2, 'Wrist watch', 'http://localhost:3000/uploads/writswatch.png'),
+(3, 'T-shirt', 'http://localhost:3000/uploads/T-shirt.png'),
+(4, 'Shorts', 'http://localhost:3000/uploads/shorts.png'),
+(5, 'Jacket', 'http://localhost:3000/uploads/jacket.png'),
+(6, 'Pants', 'http://localhost:3000/uploads/pants.png'),
+(7, 'Handbag', 'http://localhost:3000/uploads/handbag.png'),
+(8, 'Bagback', 'http://localhost:3000/uploads/backbag.png'),
+(9, 'Socks', 'http://localhost:3000/uploads/socks.png'),
+(10, 'Glasses', 'http://localhost:3000/uploads/glasses.png'),
+(11, 'Cap', 'http://localhost:3000/uploads/cap.png'),
+(12, 'Tie', 'http://localhost:3000/uploads/tie.png'),
+(13, 'Dress', 'http://localhost:3000/uploads/dress.png'),
+(14, 'Formal suit', 'http://localhost:3000/uploads/formal suit.png'),
+(15, 'Accessoris', 'http://localhost:3000/uploads/accessoris.png'),
+(16, 'High Heels', 'http://localhost:3000/uploads/high heels.png'),
+(18, 'shoes', 'http://localhost:3000/uploads/image-1599721166971shoes.jpg');
 
 -- --------------------------------------------------------
 
@@ -62,11 +63,14 @@ INSERT INTO `category` (`id`, `name`, `image`) VALUES
 
 CREATE TABLE `product` (
   `id` int NOT NULL,
-  `id_category` int NOT NULL,
+  `nameCategory` varchar(64) NOT NULL,
   `nameProduct` varchar(64) NOT NULL,
   `nameBrand` varchar(64) NOT NULL,
   `price` int NOT NULL,
-  `color` varchar(64) NOT NULL
+  `color` varchar(64) NOT NULL,
+  `condition` varchar(64) NOT NULL,
+  `description` varchar(256) NOT NULL,
+  `image` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -154,7 +158,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `product`
