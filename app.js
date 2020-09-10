@@ -19,6 +19,7 @@ app.use(cors())
 
 // make router
 app.use('/api/v1', router)
+app.use('/uploads', express.static('./uploads'))
 app.use((err, res) => {
     res.json({
       status: 404,
