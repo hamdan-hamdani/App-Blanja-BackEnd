@@ -22,6 +22,7 @@ app.use('/api/v1', router)
 app.use('/uploads', express.static('./uploads'))
 app.use((err, res) => {
     res.json({
+      success: false,
       status: 404,
       message: 'URL Not Found'
     })
