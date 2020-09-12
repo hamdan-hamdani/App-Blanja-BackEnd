@@ -36,8 +36,12 @@ module.exports = {
                   if (password.match(passwordFormat)) {
                       data.password = hash
                       userModel.registerCustomer(data)
-                      .then(result => {
-                          const historyResult = result
+                      .then(() => {
+                          const historyResult = {
+                            name: data.name,
+                            email: data.email,
+                            roleId: data.roleId
+                          }
                           helper.responseGetAll(response, historyResult, 200)
                       })
                       .catch(err => console.log(err))
@@ -85,8 +89,9 @@ module.exports = {
                   if (password.match(passwordFormat)) {
                       data.password = hash
                       userModel.registerSeller(data)
-                      .then(result => {
-                          const historyResult = result
+                      .then(() => {
+                          delete data.password
+                          const historyResult = data
                           helper.responseGetAll(response, historyResult, 200)
                       })
                       .catch(err => console.log(err))
@@ -104,7 +109,7 @@ module.exports = {
         })
 
       } else {
-        helper.responseGetAll(res, { message: 'Email Or Password Wrong' }, 501)
+        helper.responseGetAll(response, { message: 'roleId tidak ada' }, 501)
       }
     },
     login: (req, res) => {
@@ -124,7 +129,8 @@ module.exports = {
               const payload = {
                 id: user.id,
                 email: user.email,
-                roleId: user.roleId
+                roleId: user.roleId,
+                image: user.image
               }
               jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1h' }, function (err, token) {
                 if (err) return console.log(err)
@@ -148,7 +154,8 @@ module.exports = {
               const payload = {
                 id: user.id,
                 email: user.email,
-                roleId: user.roleId
+                roleId: user.roleId,
+                image: user.image
               }
               jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1h' }, function (err, token) {
                 if (err) return console.log(err)
@@ -214,7 +221,7 @@ module.exports = {
                         .then(result => {
                             const historyResult = result
                             if (historyResult.affectedRows === 0) return helper.responseGetAll(response, {message:'Gagal mengupdate password email tidak ditemukan'}, 501)
-                            helper.responseGetAll(response, historyResult, 200)
+                            helper.responseGetAll(response, {message: 'update berhasil'}, 200)
                         })
                         .catch(err => {
                           helper.responseGetAll(response, {message:'Gagal mengupdate password'}, 501)
@@ -250,7 +257,7 @@ module.exports = {
                           const historyResult = result
                           console.log(historyResult)
                           if (historyResult.affectedRows === 0) return helper.responseGetAll(response, {message:'Gagal mengupdate password email tidak ditemukan'}, 501)
-                          helper.responseGetAll(response, historyResult, 200)
+                          helper.responseGetAll(response, {message: 'update berhasil'}, 200)
                       })
                       .catch(err => {
                         helper.responseGetAll(response, {message:'Gagal mengupdate password'}, 501)
