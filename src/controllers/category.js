@@ -13,6 +13,7 @@ module.exports = {
         })
     },
     insertCategory: (req, res) => {
+        if (req.uploadErrorMessage) return helper.responseGetAll(res, {message: req.uploadErrorMessage}, 400)
         const {name} = req.body
         const data = {
             name,
